@@ -16,8 +16,10 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<div>
-					<h1>vidiary</h1>
+				<div className="h-screen bg-slate-800 w-full p-40">
+					<h1 className="text-9xl text-slate-200 uppercase">
+						forget to leave
+					</h1>
 				</div>
 			</main>
 		</>
