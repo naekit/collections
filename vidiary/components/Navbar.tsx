@@ -2,13 +2,15 @@ import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { GoogleLogin, GoogleLogout } from "react-google-login"
+import { GoogleLogin, googleLogout } from "@react-oauth/google"
 import { AiOutlineLogout } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
 import { IoMdAdd } from "react-icons/io"
 import Logo from "@/utils/vidiarylogo.svg"
 
 const Navbar = () => {
+	const user = false
+
 	return (
 		<div className="w-full flex justify-between items-center bg-gray-950 py-2 px-4 shadow-2xl">
 			<Link href="/">
@@ -21,6 +23,17 @@ const Navbar = () => {
 					/>
 				</div>
 			</Link>
+			<div className="text-white">Search</div>
+			<div>
+				{user ? (
+					<div>Logged In</div>
+				) : (
+					<GoogleLogin
+						onSuccess={(res) => console.log(res)}
+						onError={() => console.log("error")}
+					/>
+				)}
+			</div>
 		</div>
 	)
 }
