@@ -1,7 +1,12 @@
 import Head from "next/head"
 import axios from "axios"
 
-export default function Home() {
+// interface Props {
+// 	videos: any
+// }
+
+export default function Home({ videos }: any) {
+	console.log(videos)
 	return (
 		<>
 			<Head>
