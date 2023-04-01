@@ -16,8 +16,8 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<div className="bg-slate-800">
-					<h1 className="text-9xl text-slate-200 uppercase">
+				<div className="bg-slate-950 h-screen">
+					<h1 className="text-9xl text-slate-50 uppercase">
 						forget to leave
 					</h1>
 				</div>
