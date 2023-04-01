@@ -28,9 +28,11 @@ export default function Home() {
 }
 
 export const getServerSideProps = async () => {
-	const response = await axios.get(`http://localhost:3000/api/post`)
-	console.log(response.data.name)
+	const { data } = await axios.get(`http://localhost:3000/api/post`)
+
 	return {
-		props: {},
+		props: {
+			videos: data,
+		},
 	}
 }
