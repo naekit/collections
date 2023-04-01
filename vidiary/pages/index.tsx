@@ -1,11 +1,14 @@
 import Head from "next/head"
 import axios from "axios"
+import { type Video } from "@/types"
+import VideoCard from "@/components/VideoCard"
+import NoResults from "@/components/NoResults"
 
-// interface Props {
-// 	videos: any
-// }
+interface Props {
+	videos: Video[]
+}
 
-export default function Home({ videos }: any) {
+export default function Home({ videos }: Props) {
 	console.log(videos)
 	return (
 		<>
@@ -22,10 +25,14 @@ export default function Home({ videos }: any) {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<div className="bg-slate-950 h-screen">
-					<h1 className="text-9xl text-slate-50 uppercase">
-						forget to leave
-					</h1>
+				<div className="flex flex-col gap-10 video h-full">
+					{videos.length ? (
+						videos.map((video: Video) => (
+							<VideoCard post={video} key={video._id} />
+						))
+					) : (
+						<NoResults text="No videos found" />
+					)}
 				</div>
 			</main>
 		</>
