@@ -7,6 +7,7 @@ import { AiOutlineLogout } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
 import { IoMdAdd } from "react-icons/io"
 import Logo from "@/utils/vidiarylogo.svg"
+import { createOrGetUser } from "@/utils"
 
 const Navbar = () => {
 	const user = false
@@ -29,7 +30,7 @@ const Navbar = () => {
 					<div>Logged In</div>
 				) : (
 					<GoogleLogin
-						onSuccess={(res) => console.log(res)}
+						onSuccess={(res) => createOrGetUser(res)}
 						onError={() => console.log("error")}
 					/>
 				)}

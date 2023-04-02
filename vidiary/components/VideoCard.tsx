@@ -56,14 +56,14 @@ const VideoCard: NextPage<Props> = ({ post }) => {
 				<div
 					onMouseEnter={() => setIsHover(true)}
 					onMouseLeave={() => setIsHover(false)}
-					className="rounded-md p-10 md:p-12 border-2 bg-gray-100 border-gray-950"
+					className="rounded-md p-10 md:p-12 border-2 bg-gray-50 border-gray-950"
 				>
 					<Link href={`/`}>
 						<video
 							src={post.video.asset.url}
 							ref={videoRef}
 							loop
-							className="cursor-pointer border-4 bg-gray-50 rounded-md"
+							className="cursor-pointer border-4 border-gray-950 rounded-md"
 						></video>
 					</Link>
 					{isHover && (
