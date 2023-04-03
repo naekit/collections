@@ -13,6 +13,13 @@ const Upload = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [videoAsset, setVideoAsset] = useState<SanityAssetDocument>()
 	const [wrongType, setWrongType] = useState(false)
+	const [caption, setCaption] = useState("")
+	const [category, setCategory] = useState(topics[0].name)
+	const [saving, setSaving] = useState(false)
+
+	const { userProfile }: { userProfile: any } = useAuthStore()
+
+	const router = useRouter()
 
 	const uploadVideo = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) return
@@ -31,6 +38,35 @@ const Upload = () => {
 		} else {
 			setIsLoading(false)
 			setWrongType(true)
+		}
+	}
+
+	const handlePost = async () => {
+		if (caption && videoAsset?._id && category) {
+			setSaving(true)
+			const document = {
+				_type: "post",
+				caption,
+				video: {
+					_type: "file",
+					asset: {
+						_type: "reference",
+						_ref: videoAsset._id,
+					},
+				},
+				userId: userProfile?._id,
+				postedBy: {
+					_type: "postedBy",
+					_ref: userProfile?._id,
+				},
+				topic: category,
+			}
+			const res = await axios.post(
+				"http://localhost:3000/api/post",
+				document
+			)
+
+			router.push("/")
 		}
 	}
 
@@ -101,8 +137,8 @@ const Upload = () => {
 					<input
 						type="text"
 						className="border-2 border-gray-200 rounded p-2 outline-none"
-						value=""
-						onChange={() => {}}
+						value={caption}
+						onChange={(e) => setCaption(e.target.value)}
 					/>
 					<label className="text-md font-medium">
 						Choose a category
@@ -110,7 +146,7 @@ const Upload = () => {
 					<select
 						className="border-2 border-gray-200 bg-white rounded p-2 lg:p-4 cursor-pointer outline-none text-md capitalize"
 						value=""
-						onChange={() => {}}
+						onChange={(e) => setCategory(e.target.value)}
 					>
 						{topics.map((topic) => (
 							<option
@@ -130,7 +166,7 @@ const Upload = () => {
 							Cancel
 						</button>
 						<button
-							onClick={() => {}}
+							onClick={handlePost}
 							className="bg-gray-950 text-white font-semibold p-2 rounded w-32"
 						>
 							Post
