@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default function Home({ videos }: Props) {
-	console.log(videos)
 	return (
 		<>
 			<Head>
