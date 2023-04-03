@@ -58,7 +58,7 @@ const VideoCard: NextPage<Props> = ({ post }) => {
 					onMouseLeave={() => setIsHover(false)}
 					className="rounded-md p-10 md:p-12 border-2 bg-gray-50 border-gray-950"
 				>
-					<Link href={`/`}>
+					<Link href={`/details/${post._id}`}>
 						<video
 							src={post.video.asset.url}
 							ref={videoRef}
