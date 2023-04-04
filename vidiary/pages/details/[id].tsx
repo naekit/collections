@@ -10,6 +10,8 @@ import axios from "axios"
 import { BASE_URL } from "@/utils"
 import { Video } from "@/types"
 import useAuthStore from "@/store/authStore"
+import LikeButton from "@/components/LikeButton"
+import Comments from "@/components/Comments"
 
 const Details = ({ postDetails }: { postDetails: Video }) => {
 	const [post, setPost] = useState<Video>(postDetails)
@@ -110,13 +112,9 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 						{post.caption}
 					</p>
 					<div className="mt-10 px-8">
-						{userProfile && (
-							// <LikeButton post={post} setPost={setPost} />
-							<h1>Like Button here</h1>
-						)}
+						{userProfile && <LikeButton />}
 					</div>
-					{/* <Comments /> */}
-					<h1>Comments here</h1>
+					<Comments />
 				</div>
 			</div>
 		</div>
