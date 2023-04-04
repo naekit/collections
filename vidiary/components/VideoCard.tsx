@@ -5,7 +5,7 @@ import Link from "next/link"
 import { HiVolumeUp, HiVolumeOff } from "react-icons/hi"
 import { BsFillPlayFill, BsFillPauseFill, BsPlay } from "react-icons/bs"
 import { GoVerified } from "react-icons/go"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface Props {
 	post: Video
@@ -26,6 +26,12 @@ const VideoCard: NextPage<Props> = ({ post }) => {
 			setIsPlaying(true)
 		}
 	}
+
+	useEffect(() => {
+		if (post && videoRef.current) {
+			videoRef.current.muted = isMuted
+		}
+	}, [isMuted])
 
 	return (
 		<div className="flex flex-col border-b-2 border-gray-800 pb-6">
