@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { FormEvent, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Image from "next/image"
 import Link from "next/link"
@@ -56,17 +56,18 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 		}
 	}
 
-	const addComment = async (e: SubmitEvent) => {
+	const addComment = async (e: FormEvent) => {
 		e.preventDefault()
 		if (userProfile && comment) {
 			setIsPosting(true)
 			const { data } = await axios.put(
-				`${BASE_URL}/api/comment/post/${post._id}`,
+				`${BASE_URL}/api/post/${post._id}`,
 				{
 					userId: userProfile._id,
 					comment,
 				}
 			)
+
 			setPost((prev) => ({ ...prev, comments: data.comments }))
 			setComment("")
 			setIsPosting(false)

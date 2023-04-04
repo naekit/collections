@@ -1,4 +1,4 @@
-import React from "react"
+import React, { FormEvent } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { GoVerified } from "react-icons/go"
@@ -7,19 +7,29 @@ import useAuthStore from "@/store/authStore"
 import NoResults from "./NoResults"
 
 interface CommentsProps {
-	comments: any[]
+	comments: Comment[]
 	setComment: (comment: string) => void
-	addComment: (e: SubmitEvent) => Promise<void>
+	addComment: (e: FormEvent) => Promise<void>
 	isPostingComment: boolean
 	comment: string
 }
 
+interface Comment {
+	comment: string
+	length?: number
+	_key: string
+	postedBy: {
+		_ref: string
+		_id: string
+	}
+}
+
 const Comments = ({
 	comments,
+	comment,
 	setComment,
 	addComment,
 	isPostingComment,
-	comment,
 }: CommentsProps) => {
 	const { userProfile } = useAuthStore()
 
@@ -35,19 +45,19 @@ const Comments = ({
 			{userProfile && (
 				<div className="absolute bottom-0 left-0 pb-6 px-2 md:px-10">
 					<form
-						onSubmit={() => {}}
+						onSubmit={addComment}
 						className="flex gap-4 mb-4 items-center"
 					>
 						<input
 							type="text"
-							value=""
-							onChange={() => {}}
+							value={comment}
+							onChange={(e) => setComment(e.target.value)}
 							placeholder="Add a comment..."
 							className="flex-1 bg-gray-300 rounded-md text-md font-medium px-6 py-4 outline-none w-[250px] md:w-[700px] lg:w-[350px] border-gray-100 border focus:outline-none focus:border-2 focus:border-gray-400"
 						/>
 						<button
 							className="text-md text-gray-400"
-							onClick={() => {}}
+							onClick={addComment}
 						>
 							{isPostingComment ? "Commenting" : "Comment"}
 						</button>
