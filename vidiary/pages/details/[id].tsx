@@ -18,7 +18,7 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 	const videoRef = React.useRef<HTMLVideoElement>(null)
 	const [isMuted, setIsMuted] = useState<boolean>(false)
 	const [isPlaying, setIsPlaying] = useState<boolean>(false)
-	const { userProfile } = useAuthStore()
+	const { userProfile }: any = useAuthStore()
 	const router = useRouter()
 
 	if (!post) return <h1>404</h1>
@@ -42,8 +42,18 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 		}
 	}, [isMuted])
 
+	const handleLike = async (like: boolean) => {
+		if (userProfile) {
+			const res = await axios.put(`${BASE_URL}/like`, {
+				userId: userProfile._id,
+				postId: post._id,
+				like,
+			})
+		}
+	}
+
 	return (
-		<div className="flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap">
+		<div className="flex w-full absolute left-0 top-0 flex-wrap lg:flex-nowrap">
 			<div className="relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center bg-blur">
 				<div className="absolute top-6 left-2 lg:left-6 flex gap-6 z-50">
 					<p className="pointer-cursor" onClick={() => router.back()}>
@@ -112,7 +122,12 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 						{post.caption}
 					</p>
 					<div className="mt-10 px-8">
-						{userProfile && <LikeButton />}
+						{userProfile && (
+							<LikeButton
+								handleLike={() => handleLike(true)}
+								handleDislike={() => handleLike(false)}
+							/>
+						)}
 					</div>
 					<Comments />
 				</div>
