@@ -9,12 +9,14 @@ import { HiVolumeUp, HiVolumeOff } from "react-icons/hi"
 import axios from "axios"
 import { BASE_URL } from "@/utils"
 import { Video } from "@/types"
+import useAuthStore from "@/store/authStore"
 
 const Details = ({ postDetails }: { postDetails: Video }) => {
 	const [post, setPost] = useState<Video>(postDetails)
 	const videoRef = React.useRef<HTMLVideoElement>(null)
 	const [isMuted, setIsMuted] = useState<boolean>(false)
 	const [isPlaying, setIsPlaying] = useState<boolean>(false)
+	const { userProfile } = useAuthStore()
 	const router = useRouter()
 
 	if (!post) return <h1>404</h1>
@@ -76,15 +78,45 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 					)}
 				</div>
 			</div>
-			<div className="relative w-[1000px] md:w-[900px] lg:w-[700px]">
-				<div className="flex items-center gap-4">
-					<Image
-						src={post.postedBy.image}
-						width={40}
-						height={40}
-						className="rounded-full"
-						alt="user"
-					/>
+			<div className="relative w-[1000px] md:w-[900px] lg:w-[700px] bg-primary">
+				<div className="lg:mt-20 mt-10 items-center gap-4">
+					<div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">
+						<div className="md:w-20 md:h-20 w-16 h-16 ml-4">
+							<Link href={`/`}>
+								<Image
+									width={62}
+									height={62}
+									className="rounded-md"
+									src={post.postedBy.image}
+									alt="Profile image"
+								/>
+							</Link>
+						</div>
+						<div>
+							<Link href={`/`}>
+								<div className="flex flex-col gap-2 mt-1">
+									<p className="flex gap-2 items-center md:text-md text-primary">
+										{post.postedBy.username}
+										<GoVerified className="text-blue-800" />
+									</p>
+									<p className="capitalize font-medium text-xs text-gray-500 hidden md:block">
+										{post.postedBy.username}
+									</p>
+								</div>
+							</Link>
+						</div>
+					</div>
+					<p className="px-8 text-md text-gray-600 text-lg">
+						{post.caption}
+					</p>
+					<div className="mt-10 px-8">
+						{userProfile && (
+							// <LikeButton post={post} setPost={setPost} />
+							<h1>Like Button here</h1>
+						)}
+					</div>
+					{/* <Comments /> */}
+					<h1>Comments here</h1>
 				</div>
 			</div>
 		</div>
