@@ -18,6 +18,8 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 	const videoRef = React.useRef<HTMLVideoElement>(null)
 	const [isMuted, setIsMuted] = useState<boolean>(false)
 	const [isPlaying, setIsPlaying] = useState<boolean>(false)
+	const [comment, setComment] = useState<string>("")
+	const [isPosting, setIsPosting] = useState<boolean>(false)
 	const { userProfile }: any = useAuthStore()
 	const router = useRouter()
 
@@ -51,6 +53,23 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 				like,
 			})
 			setPost((prev) => ({ ...prev, likes: data.likes }))
+		}
+	}
+
+	const addComment = async (e: SubmitEvent) => {
+		e.preventDefault()
+		if (userProfile && comment) {
+			setIsPosting(true)
+			const { data } = await axios.put(
+				`${BASE_URL}/api/comment/post/${post._id}`,
+				{
+					userId: userProfile._id,
+					comment,
+				}
+			)
+			setPost((prev) => ({ ...prev, comments: data.comments }))
+			setComment("")
+			setIsPosting(false)
 		}
 	}
 
@@ -132,7 +151,13 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 							/>
 						)}
 					</div>
-					<Comments />
+					<Comments
+						addComment={addComment}
+						comment={comment}
+						setComment={setComment}
+						comments={post.comments}
+						isPostingComment={isPosting}
+					/>
 				</div>
 			</div>
 		</div>

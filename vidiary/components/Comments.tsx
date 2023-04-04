@@ -6,10 +6,22 @@ import { GoVerified } from "react-icons/go"
 import useAuthStore from "@/store/authStore"
 import NoResults from "./NoResults"
 
-const Comments = () => {
-	const comments = []
+interface CommentsProps {
+	comments: any[]
+	setComment: (comment: string) => void
+	addComment: (e: SubmitEvent) => Promise<void>
+	isPostingComment: boolean
+	comment: string
+}
+
+const Comments = ({
+	comments,
+	setComment,
+	addComment,
+	isPostingComment,
+	comment,
+}: CommentsProps) => {
 	const { userProfile } = useAuthStore()
-	const isPostingComment = false
 
 	return (
 		<div className="border-t-2 border-gray-200 pt-2 px-8 mt-4 bg-gray-300 border-b-2 lg:pb-0 pb-[100px]">
