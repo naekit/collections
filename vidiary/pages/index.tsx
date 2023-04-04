@@ -3,6 +3,7 @@ import axios from "axios"
 import { type Video } from "@/types"
 import VideoCard from "@/components/VideoCard"
 import NoResults from "@/components/NoResults"
+import { BASE_URL } from "@/utils"
 
 interface Props {
 	videos: Video[]
@@ -39,7 +40,7 @@ export default function Home({ videos }: Props) {
 }
 
 export const getServerSideProps = async () => {
-	const { data } = await axios.get(`http://localhost:3000/api/post`)
+	const { data } = await axios.get(`${BASE_URL}/api/post`)
 
 	return {
 		props: {
