@@ -92,7 +92,7 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 					)}
 				</div>
 			</div>
-			<div className="relative w-[1000px] md:w-[900px] lg:w-[700px] bg-primary">
+			<div className="relative w-[1000px] md:w-[900px] lg:w-[700px] bg-gray-200">
 				<div className="lg:mt-20 mt-10 items-center gap-4">
 					<div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">
 						<div className="md:w-20 md:h-20 w-16 h-16 ml-4">

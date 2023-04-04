@@ -1,4 +1,6 @@
 import React from "react"
+import { BiCommentX } from "react-icons/bi"
+import { MdOutlineVideocamOff } from "react-icons/md"
 
 interface Props {
 	text: string
@@ -6,8 +8,15 @@ interface Props {
 
 const NoResults = ({ text }: Props) => {
 	return (
-		<div>
-			<h1>NoResults</h1>
+		<div className="flex flex-col justify-center items-center h-full w-full">
+			<p className="text-8xl">
+				{text === "No comments yet" ? (
+					<BiCommentX />
+				) : (
+					<MdOutlineVideocamOff />
+				)}
+			</p>
+			<p className="text-2xl text-gray-400">{text}</p>
 		</div>
 	)
 }
