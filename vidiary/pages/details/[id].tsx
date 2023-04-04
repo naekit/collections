@@ -44,11 +44,13 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 
 	const handleLike = async (like: boolean) => {
 		if (userProfile) {
-			const res = await axios.put(`${BASE_URL}/like`, {
+			console.log(like)
+			const { data } = await axios.put(`${BASE_URL}/api/like`, {
 				userId: userProfile._id,
 				postId: post._id,
 				like,
 			})
+			setPost((prev) => ({ ...prev, likes: data.likes }))
 		}
 	}
 
@@ -126,6 +128,7 @@ const Details = ({ postDetails }: { postDetails: Video }) => {
 							<LikeButton
 								handleLike={() => handleLike(true)}
 								handleDislike={() => handleLike(false)}
+								likes={post.likes}
 							/>
 						)}
 					</div>
@@ -144,7 +147,6 @@ export const getServerSideProps = async ({
 	const { id } = params
 	const { data } = await axios.get(`${BASE_URL}/api/post/${id}`)
 
-	console.log(data)
 	return {
 		props: {
 			postDetails: data,

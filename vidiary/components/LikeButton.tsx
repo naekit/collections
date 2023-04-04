@@ -5,30 +5,40 @@ import { MdFavorite } from "react-icons/md"
 interface Props {
 	handleLike: () => void
 	handleDislike: () => void
+	likes: any[]
 }
 
-const LikeButton = ({ handleLike, handleDislike }: Props) => {
+const LikeButton = ({ handleLike, handleDislike, likes }: Props) => {
 	const [alreadyLiked, setAlreadyLiked] = useState<boolean>(false)
-	const { userProfile } = useAuthStore()
+	const { userProfile }: any = useAuthStore()
+	const filterLikes = likes?.filter((item) => item._ref === userProfile?._id)
+
+	useEffect(() => {
+		if (filterLikes?.length > 0) {
+			setAlreadyLiked(true)
+		} else {
+			setAlreadyLiked(false)
+		}
+	}, [filterLikes])
 
 	return (
-		<div className="gap-6">
+		<div className="flex gap-6">
 			<div className="mt-4 flex flex-col justify-center items-center cursor-pointer">
 				<div className="bg-gray-300 rounded-full p-2 md:p-4 ">
 					{alreadyLiked ? (
 						<MdFavorite
 							className="text-2xl lg:text-3xl text-red-400"
-							onClick={handleLike}
+							onClick={handleDislike}
 						/>
 					) : (
 						<MdFavorite
 							className="text-2xl lg:text-3xl text-white"
-							onClick={handleDislike}
+							onClick={handleLike}
 						/>
 					)}
 				</div>
 				<p className="text-gray-400 text-sm md:text-base mt-2">
-					{alreadyLiked ? "Liked" : "Like"}
+					{likes?.length | 0}
 				</p>
 			</div>
 		</div>
