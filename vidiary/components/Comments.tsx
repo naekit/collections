@@ -31,13 +31,61 @@ const Comments = ({
 	addComment,
 	isPostingComment,
 }: CommentsProps) => {
-	const { userProfile } = useAuthStore()
+	const { userProfile, allUsers }: any = useAuthStore()
 
 	return (
-		<div className="border-t-2 border-gray-200 pt-2 px-8 mt-4 bg-gray-300 border-b-2 lg:pb-0 pb-[100px]">
+		<div className="border-t-2 border-gray-200 pt-2 px-0 mt-4 bg-gray-300 border-b-2 lg:pb-0 pb-[100px]">
 			<div className="overflow-scroll lg:h-[475px]">
 				{comments?.length > 0 ? (
-					<div>Videos</div>
+					comments.map((comment: Comment) => (
+						<div
+							key={comment._key}
+							className="flex flex-col my-2 px-2 border-b border-gray-200 w-full"
+						>
+							<Link
+								href={`/profile/${comment.postedBy._id}`}
+								className="flex gap-3 items-center"
+							>
+								<div className="w-8 h-8">
+									<Image
+										src={
+											allUsers.find(
+												(user: any) =>
+													user._id ===
+													comment.postedBy._id
+											)?.image
+										}
+										alt="user image"
+										width={40}
+										height={40}
+										className="rounded-sm"
+									/>
+								</div>
+								<div>
+									<p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
+										{allUsers
+											.find(
+												(user: any) =>
+													user._id ===
+													comment.postedBy._id
+											)
+											?.username.replaceAll(" ", "")}
+										<GoVerified className="text-blue-800" />
+									</p>
+									<p className="text-gray-400 text-xs">
+										{
+											allUsers.find(
+												(user: any) =>
+													user._id ===
+													comment.postedBy._id
+											)?.username
+										}
+									</p>
+								</div>
+							</Link>
+							<p className="text-primary">{comment.comment}</p>
+						</div>
+					))
 				) : (
 					<NoResults text="No comments yet" />
 				)}
