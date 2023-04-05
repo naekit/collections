@@ -12,11 +12,22 @@ import NoResults from "@/components/NoResults"
 
 const Search = ({ videos }: { videos: Video[] }) => {
 	const [isAccounts, setIsAccounts] = useState<boolean>(false)
+	const { allUsers } = useAuthStore()
 
 	const router = useRouter()
 
+	const searchTerm = router.query.searchTerm as string
+
 	const accounts = isAccounts ? `border-b-2 border-black` : `text-gray-400`
 	const isVideos = !isAccounts ? `border-b-2 border-black` : `text-gray-400`
+
+	const searchedAccounts: IUser[] = allUsers.filter(
+		(user: IUser): user is IUser => {
+			return user.username
+				.toLowerCase()
+				.includes(searchTerm.toLowerCase())
+		}
+	)
 
 	return (
 		<div className="w-full">
@@ -36,8 +47,45 @@ const Search = ({ videos }: { videos: Video[] }) => {
 					</p>
 				</div>
 				{isAccounts ? (
-					<div>
-						<h1>Accounts</h1>
+					<div className="flex flex-wrap gap-6 md:justify-start">
+						{searchedAccounts.length > 0 ? (
+							searchedAccounts.map((user) => (
+								<div className="w-full" key={user._id}>
+									<Link
+										href={`/profile/${user._id}`}
+										key={user._id}
+									>
+										<div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded-md items-center">
+											<div>
+												<Image
+													src={user.image}
+													alt="user image"
+													width={50}
+													height={50}
+													className="rounded-md"
+												/>
+											</div>
+											<div className="hidden xl:block ">
+												<p className="flex gap-1 items-center text-xl font-bold text-primary lowercase">
+													{user.username.replaceAll(
+														" ",
+														""
+													)}
+													<GoVerified className="text-blue-800" />
+												</p>
+												<p className="text-gray-400 text-xs">
+													{user.username}
+												</p>
+											</div>
+										</div>
+									</Link>
+								</div>
+							))
+						) : (
+							<NoResults
+								text={`No results for "${searchTerm}"`}
+							/>
+						)}
 					</div>
 				) : (
 					<div className="md:mt-16 flex flex-wrap gap-6 md:justify-start">
@@ -47,7 +95,7 @@ const Search = ({ videos }: { videos: Video[] }) => {
 							))
 						) : (
 							<NoResults
-								text={`No results for "${router.query.searchTerm}"`}
+								text={`No results for "${searchTerm}"`}
 							/>
 						)}
 					</div>

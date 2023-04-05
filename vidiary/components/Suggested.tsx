@@ -20,14 +20,14 @@ const Suggested = () => {
 			<div>
 				{allUsers.slice(0, 6).map((user: IUser) => (
 					<Link href={`/profile/${user._id}`} key={user._id}>
-						<div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded items-center">
+						<div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded-md items-center">
 							<div className="w-8 h-8">
 								<Image
 									src={user.image}
 									alt="user image"
 									width={40}
 									height={40}
-									className="rounded-sm"
+									className="rounded-md"
 								/>
 							</div>
 							<div className="hidden xl:block ">
