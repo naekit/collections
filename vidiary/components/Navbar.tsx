@@ -1,4 +1,4 @@
-import React from "react"
+import React, { FormEvent, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -12,6 +12,13 @@ import useAuthStore from "@/store/authStore"
 
 const Navbar = () => {
 	const { userProfile, addUser, removeUser } = useAuthStore()
+	const [search, setSearch] = useState("")
+	const router = useRouter()
+
+	const handleSearch = (e: FormEvent) => {
+		e.preventDefault()
+		router.push(`/search/${search}`)
+	}
 
 	return (
 		<div className="w-full flex justify-between items-center bg-gray-950 py-2 px-4 shadow-md">
@@ -25,12 +32,32 @@ const Navbar = () => {
 					/>
 				</div>
 			</Link>
-			<div className="text-white">Search</div>
+			<div className="relative hidden md:block">
+				<form
+					onSubmit={handleSearch}
+					className="absolute md:static top-10 -left-20"
+					action=""
+				>
+					<input
+						className="border-2 border-gray-50 px-6 py-1 bg-primary rounded-full outline-none font-medium focus:border-slate-500"
+						type="text"
+						value={search}
+						placeholder="Search"
+						onChange={(e) => setSearch(e.target.value)}
+					/>
+					<button
+						onClick={handleSearch}
+						className="absolute md:right-5 right-6 top-2 border-l-2 border-gray-400 pl-4 text-gray-400"
+					>
+						<BiSearch className="text-2xl cursor-pointer" />
+					</button>
+				</form>
+			</div>
 			<div>
 				{userProfile ? (
 					<div className="text-white font-semibold flex gap-5 md:gap-5 items-center">
 						<Link href="/upload">
-							<button className="border-2 p-2 md:px-4 text-md flex items-center gap-2">
+							<button className="border-2 p-2 md:px-4 text-md flex items-center gap-2 rounded-md">
 								<IoMdAdd className="text-2xl cursor-pointer" />{" "}
 								<span className="hidden md:block">Upload</span>
 							</button>
